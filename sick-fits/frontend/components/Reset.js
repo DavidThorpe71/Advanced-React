@@ -1,38 +1,44 @@
-import React, { Component } from 'react';
-import { Mutation } from 'react-apollo';
-import gql from 'graphql-tag';
-import Form from './styles/Form';
-import Error from './ErrorMessage';
-import { CURRENT_USER_QUERY } from './User';
-import PropTypes from 'prop-types';
-
+import React, { Component } from "react";
+import { Mutation } from "react-apollo";
+import gql from "graphql-tag";
+import Form from "./styles/Form";
+import Error from "./ErrorMessage";
+import { CURRENT_USER_QUERY } from "./User";
+import PropTypes from "prop-types";
 
 const RESET_MUTATION = gql`
-mutation RESET_MUTATION($resetToken: String!, $password: String!, $confirmPassword: String!) {
-  resetPassword(resetToken: $resetToken, password: $password, confirmPassword: $confirmPassword ) {
-    id
-    email
-    name
+  mutation RESET_MUTATION(
+    $resetToken: String!
+    $password: String!
+    $confirmPassword: String!
+  ) {
+    resetPassword(
+      resetToken: $resetToken
+      password: $password
+      confirmPassword: $confirmPassword
+    ) {
+      id
+      email
+      name
+    }
   }
-}
 `;
-
 
 class Reset extends Component {
   static propTypes = {
     resetToken: PropTypes.string.isRequired
-  }
+  };
 
   state = {
-    password: '',
-    confirmPassword: ''
-  }
+    password: "",
+    confirmPassword: ""
+  };
 
-  saveToState = (e) => {
+  saveToState = e => {
     this.setState({
       [e.target.name]: e.target.value
-    })
-  }
+    });
+  };
 
   render() {
     return (
@@ -43,20 +49,21 @@ class Reset extends Component {
           password: this.state.password,
           confirmPassword: this.state.confirmPassword
         }}
-        refetchQueries={[
-          { query: CURRENT_USER_QUERY }
-        ]}
+        refetchQueries={[{ query: CURRENT_USER_QUERY }]}
       >
         {(reset, { error, loading, called }) => {
           return (
-            <Form method="post" onSubmit={async (e) => {
-              e.preventDefault();
-              await reset();
-              this.setState({
-                password: '',
-                confirmPassword: ''
-              })
-            }}>
+            <Form
+              method="post"
+              onSubmit={async e => {
+                e.preventDefault();
+                await reset();
+                this.setState({
+                  password: "",
+                  confirmPassword: ""
+                });
+              }}
+            >
               <fieldset disabled={loading} aria-busy={loading}>
                 <h2>Reset your password</h2>
                 <Error error={error} />
@@ -84,9 +91,9 @@ class Reset extends Component {
                 <button type="submit">Reset your password</button>
               </fieldset>
             </Form>
-          )
+          );
         }}
-      </Mutation >
+      </Mutation>
     );
   }
 }

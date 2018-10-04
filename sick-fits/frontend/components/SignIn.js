@@ -1,34 +1,32 @@
-import React, { Component } from 'react';
-import { Mutation } from 'react-apollo';
-import gql from 'graphql-tag';
-import Form from './styles/Form';
-import Error from './ErrorMessage';
-import { CURRENT_USER_QUERY } from './User';
-
+import React, { Component } from "react";
+import { Mutation } from "react-apollo";
+import gql from "graphql-tag";
+import Form from "./styles/Form";
+import Error from "./ErrorMessage";
+import { CURRENT_USER_QUERY } from "./User";
 
 const SIGNIN_MUTATION = gql`
-mutation SIGNIN_MUTATION($email: String!, $password: String!) {
-  signIn(email: $email, password: $password) {
-    id
-    email
-    name
+  mutation SIGNIN_MUTATION($email: String!, $password: String!) {
+    signIn(email: $email, password: $password) {
+      id
+      email
+      name
+    }
   }
-}
 `;
 
-
-class signin extends Component {
+class SignIn extends Component {
   state = {
-    email: '',
-    password: '',
-    name: ''
-  }
+    email: "",
+    password: "",
+    name: ""
+  };
 
-  saveToState = (e) => {
+  saveToState = e => {
     this.setState({
       [e.target.name]: e.target.value
-    })
-  }
+    });
+  };
 
   render() {
     const { email, password } = this.state;
@@ -36,20 +34,21 @@ class signin extends Component {
       <Mutation
         mutation={SIGNIN_MUTATION}
         variables={{ email, password }}
-        refetchQueries={[
-          { query: CURRENT_USER_QUERY }
-        ]}
+        refetchQueries={[{ query: CURRENT_USER_QUERY }]}
       >
         {(signIn, { error, loading }) => {
           return (
-            <Form method="post" onSubmit={async (e) => {
-              e.preventDefault();
-              await signIn();
-              this.setState({
-                email: '',
-                password: ''
-              })
-            }}>
+            <Form
+              method="post"
+              onSubmit={async e => {
+                e.preventDefault();
+                await signIn();
+                this.setState({
+                  email: "",
+                  password: ""
+                });
+              }}
+            >
               <fieldset disabled={loading} aria-busy={loading}>
                 <h2>Sign into your account</h2>
                 <Error error={error} />
@@ -77,11 +76,11 @@ class signin extends Component {
                 <button type="submit">Sign In!</button>
               </fieldset>
             </Form>
-          )
+          );
         }}
-      </Mutation >
+      </Mutation>
     );
   }
 }
 
-export default signin;
+export default SignIn;
