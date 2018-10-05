@@ -2,10 +2,11 @@ import React from 'react';
 import Reset from '../components/Reset';
 
 const reset = (props) => {
+  const { query } = props;
   return (
     <div>
       <p>Reset your password</p>
-      <Reset resetToken={props.query.resetToken} />
+      <Reset resetToken={query.resetToken} />
     </div>
   );
 };
