@@ -4,7 +4,7 @@ const Query = require('./resolvers/Query');
 const db = require('./db');
 
 
-//cretae graphql yoga server
+// create graphql yoga server
 
 function createServer() {
   return new GraphQLServer({

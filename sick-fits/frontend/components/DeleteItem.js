@@ -12,34 +12,36 @@ const DELETE_ITEM_MUTATION = gql`
 `;
 
 class DeleteItem extends Component {
-
   update = (cache, payload) => {
     // Manually update cache on the client so it matches the server
     // 1. Read the cache for the items we want
-    const data = cache.readQuery({ query: ALL_ITEMS_QUERY })
+    const data = cache.readQuery({ query: ALL_ITEMS_QUERY });
     // 2. Filter deleted item out of the page
-    data.items = data.items.filter(item => {
-      return item.id !== payload.data.deleteItem.id
-    });
+    data.items = data.items.filter(item => item.id !== payload.data.deleteItem.id);
     // 3. Put the items back!
     cache.writeQuery({ query: ALL_ITEMS_QUERY, data });
   }
 
 
   render() {
+    const { id, children } = this.props;
     return (
       <Mutation
         mutation={DELETE_ITEM_MUTATION}
-        variables={{ id: this.props.id }}
+        variables={{ id }}
         update={this.update}
       >
         {(deleteItem, { error }) => (
 
           <button onClick={() => {
             if (confirm('Are you sure you want to delete this item?')) {
-              deleteItem();
+              deleteItem().catch((err) => {
+                alert(err.message);
+              });
             }
-          }}>{this.props.children}</button>
+          }}
+          >{children}
+          </button>
         )}
 
       </Mutation>
