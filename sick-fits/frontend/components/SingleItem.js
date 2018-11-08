@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
-import Error from './ErrorMessage';
 import styled from 'styled-components';
 import Head from 'next/head';
+import Error from './ErrorMessage';
 
 const SingleItemStyles = styled.div`
   max-width: 1200px;
@@ -20,13 +20,13 @@ const SingleItemStyles = styled.div`
   }
   .details {
     margin: 3rem;
-    font-size: 2rem
+    font-size: 2rem;
   }
 `;
 
 const SINGLE_ITEM_QUERY = gql`
   query SINGLE_ITEM_QUERY($id: ID!) {
-    item(where: {id: $id}) {
+    item(where: { id: $id }) {
       id
       title
       description
@@ -37,17 +37,18 @@ const SINGLE_ITEM_QUERY = gql`
 
 class SingleItem extends Component {
   render() {
+    const { id } = this.props;
     return (
       <Query
         query={SINGLE_ITEM_QUERY}
         variables={{
-          id: this.props.id
+          id
         }}
       >
         {({ data, loading, error }) => {
           if (error) return <Error error={error} />;
           if (loading) return <p>Loading...</p>;
-          if (!data.item) return <p>No item found for {this.props.id}</p>
+          if (!data.item) return <p>No item found for {id}</p>;
           const { largeImage, title, description } = data.item;
           return (
             <SingleItemStyles>
@@ -60,7 +61,7 @@ class SingleItem extends Component {
                 <p>{description}</p>
               </div>
             </SingleItemStyles>
-          )
+          );
         }}
       </Query>
     );

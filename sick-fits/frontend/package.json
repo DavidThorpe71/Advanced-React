@@ -7,7 +7,7 @@
     "dev": "next -p 7777",
     "build": "next build",
     "start": "next start",
-    "test": "NODE_ENV=test jest --watch"
+    "test": "jest --watch"
   },
   "author": "",
   "license": "ISC",
@@ -49,6 +49,7 @@
     "jest-transform-graphql": "^2.1.0"
   },
   "jest": {
+    "testURL": "http://localhost:7777",
     "setupTestFrameworkScriptFile": "<rootDir>/jest.setup.js",
     "testPathIgnorePatterns": [
       "<rootDir>/.next/",

@@ -10,9 +10,8 @@ import AddToCart from './AddToCart';
 
 class Item extends Component {
   static propTypes = {
-    items: PropTypes.object.isRequired,
-  }
-
+    item: PropTypes.object.isRequired
+  };
 
   render() {
     const { item } = this.props;
@@ -20,23 +19,23 @@ class Item extends Component {
       <ItemStyles>
         {item.image && <img src={item.image} alt={item.title} />}
         <Title>
-          <Link href={{
-            pathname: '/item',
-            query: { id: item.id }
-          }}
+          <Link
+            href={{
+              pathname: '/item',
+              query: { id: item.id }
+            }}
           >
             <a>{item.title}</a>
           </Link>
         </Title>
-        <PriceTag>
-          {formatMoney(item.price)}
-        </PriceTag>
+        <PriceTag>{formatMoney(item.price)}</PriceTag>
         <p>{item.description}</p>
         <div className="buttonList">
-          <Link href={{
-            pathname: 'update',
-            query: { id: item.id }
-          }}
+          <Link
+            href={{
+              pathname: 'update',
+              query: { id: item.id }
+            }}
           >
             <a>Edit ✏</a>
           </Link>
